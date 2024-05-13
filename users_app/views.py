@@ -45,10 +45,6 @@ class CreatePost(CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    # def get(self, request):
-    #     return render(request, 'detail.html')
-    # def post(self, request, id):
-    #     post=Post.objects.get()
 
 
 class PostDetail(TemplateView):
@@ -141,35 +137,28 @@ class ProfileView(LoginRequiredMixin, FormView):
     form_class = ProfilePictureForm
     success_url = reverse_lazy('user-profile')
 
-    def get(self, request):
-        return render(request, 'user_profile.html', {'user': request.user})
+    # def get(self, request):
+    #     return render(request, 'user_profile.html', {'user': request.user})
     
     def post(self, request, *args, **kwargs):
-        form = self.get_form()
+        # form = self.get_form()
+        form = self.form_class(request.POST, request.FILES)
+        # import pdb;pdb.set_trace()
         if form.is_valid():
-            form.instance = request.user
-            form.save()
+            # form.instance = request.user
+            # form.save()
+            # return redirect(self.get_success_url())
+            # picture=request.FILES["picture"]
+            user = request.user
+            user.picture = request.FILES['picture']
+            user.save()
+            # print(x)
             return redirect(self.get_success_url())
         else:
             return self.form_invalid(form)
 
 
-# class ProfileView(FormView):
-#     template_name = 'user_profile.html'
-#     form_class = ProfilePictureForm
-#     success_url = reverse_lazy('posts')
-
-#     def get(self, request):
-#         return render(request, 'user_profile.html')
-    
-#     def post(self, request, *args, **kwargs):
-#     #     picture=request.FILES.get('image')
-#     #     return render(request, 'user_profile.html', {'picture': picture})
-#         form = self.get_form()
-#         if form.is_valid():
-#             form.save()
-#             return redirect(self.get_success_url())
-#         else:
-#             return self.form_invalid(form)
-        
+class Back(View):
+    def get(self, request):
+        return render(request, 'details.html')
     

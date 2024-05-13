@@ -82,16 +82,16 @@
           {% endif %}
         {% comment %} </a> {% endcomment %}
         <div class="actions">
-          {% comment %} <a href="{% url 'like-post' post.id %}">
+          <a href="{% url 'like-post' post.id %}">
             <button><i class="far fa-thumbs-up"></i> Like</button>
-          </a> {% endcomment %}
-          <form action="{% url 'like-post' post.id %}" method="post">
+          </a>
+          {% comment %} <form action="{% url 'like-post' post.id %}" method="post">
             {% csrf_token %}
             <button type="submit"><i class="far fa-thumbs-up"></i> Like</button>
             {% if post.is_liked_by_current_user %}
               <span class="like-message">Post liked by {{ post.user }}</span>
             {% endif %}
-          </form>        
+          </form>         {% endcomment %}
           <a href="{% url 'post-details' post.id %}">
             <button><i class="far fa-comment"></i> Comment</button>
           </a>
